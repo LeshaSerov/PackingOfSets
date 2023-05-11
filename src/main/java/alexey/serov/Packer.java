@@ -2,24 +2,24 @@ package alexey.serov;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 
 import java.util.*;
 
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
 public class Packer {
-    private final Set<Integer> mainSet;
-    private final List<Set<Integer>> subSetList;
-
+    private AbstractSet<Package> packs = new HashSet<Package>();
+    private final AbstractSet<Integer> mainSet;
+    private final AbstractList<AbstractSet<Integer>> subsetList;
     @NoArgsConstructor
     @Getter
-    private class Package{
-        Set<Integer> set = new HashSet<Integer>();
-        List<Set<Integer>> list = new ArrayList<Set<Integer>>();
+    private static class Package{
+        AbstractSet<Integer> set = new HashSet<Integer>();
+        List<AbstractSet<Integer>> list = new ArrayList<AbstractSet<Integer>>();
 
-        public boolean add(Set<Integer> set)
+        public boolean add(AbstractSet<Integer> set)
         {
             if (Collections.disjoint(this.set, set))
             {
@@ -31,13 +31,21 @@ public class Packer {
         }
     }
 
-    private void pack(){
+    public AbstractList<AbstractSet<Integer>> maxPack(){
+        for (var subset : subsetList)
+        {
+            var a = new ArrayList<HashSet<Integer>>();
+            process(subset, a);
+//            , Collections.copy(subsetList, new ArrayList<Set<Integer>>())
+        }
+//    private Set<Package> packageSet = new HashSet<Package>();
+    return null;
+    }
 
+    void process(AbstractSet<Integer> subset, AbstractList<AbstractSet<Integer>> resultSet)
+    {
+//, List<Set<Integer>> ignoredSet
     }
 
 
-
-
 }
-
-
