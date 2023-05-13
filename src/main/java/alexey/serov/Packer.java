@@ -49,7 +49,6 @@ public class Packer {
     }
 
     public List<Set<Integer>> maxPack() {
-        // Потокобезопасная копия множества
         Set<Set<Integer>> availableSubsets = Collections.newSetFromMap(new ConcurrentHashMap<>(subsetList.size()));
         availableSubsets.addAll(subsetList);
 
@@ -57,16 +56,12 @@ public class Packer {
             process(element, new Pack(), new CopyOnWriteArrayList<>(availableSubsets));
         }
 
-        int maxLength = 0;
-        List<Set<Integer>> result = null;
-        for (var element : packSet) {
-            log.atInfo().log(element.toString());
-            if (element.size() > maxLength) {
-                maxLength = element.size();
-                result = new ArrayList<>(element);
-            }
-        }
-        return result;
+        packSet.forEach(x -> log.info(x.toString()));
+
+        return packSet.stream()
+                .max(Comparator.comparingInt(Set::size))
+                .map(ArrayList::new)
+                .orElseGet(ArrayList::new);
     }
 
     private void process(Set<Integer> subset, Pack pack, List<Set<Integer>> availableSubsets) {
@@ -80,8 +75,7 @@ public class Packer {
             return;
         }
 
-        for (var element : availableSubsets) {
-            // Потокобезопасная копия списка подмножеств
+        for (var element : new ArrayList<>(availableSubsets)) {
             process(element, new Pack(pack), new CopyOnWriteArrayList<>(availableSubsets));
         }
     }
