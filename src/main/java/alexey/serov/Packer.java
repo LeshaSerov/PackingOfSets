@@ -5,6 +5,10 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class Packer {
@@ -13,9 +17,9 @@ public class Packer {
     private Set<Set<Set<Integer>>> packSet;
 
     public Packer(Set<Integer> mainSet, List<Set<Integer>> subsetList) {
-        this.mainSet = Collections.synchronizedSet(mainSet);
-        this.subsetList = Collections.synchronizedList(subsetList);
-        this.packSet = Collections.synchronizedSet(new HashSet<>());
+        this.mainSet = Set.copyOf(mainSet);
+        this.subsetList = List.copyOf(subsetList);
+        this.packSet = new CopyOnWriteArraySet<>();
     }
 
     @Getter
@@ -42,38 +46,43 @@ public class Packer {
             }
             return false;
         }
-
     }
 
     public List<Set<Integer>> maxPack() {
-        for (var element : subsetList) {
-            process(element, new Pack(), new ArrayList<>(subsetList));
+        // Потокобезопасная копия множества
+        Set<Set<Integer>> availableSubsets = Collections.newSetFromMap(new ConcurrentHashMap<>(subsetList.size()));
+        availableSubsets.addAll(subsetList);
+
+        for (var element : availableSubsets) {
+            process(element, new Pack(), new CopyOnWriteArrayList<>(availableSubsets));
         }
 
-        int length = 0;
+        int maxLength = 0;
         List<Set<Integer>> result = null;
         for (var element : packSet) {
             log.atInfo().log(element.toString());
-            length = Integer.max(element.size(), length);
+            if (element.size() > maxLength) {
+                maxLength = element.size();
+                result = new ArrayList<>(element);
+            }
         }
         return result;
     }
 
     private void process(Set<Integer> subset, Pack pack, List<Set<Integer>> availableSubsets) {
-//        log.atInfo().log(subset.toString() + " " + pack.toString() + " " + availableSubsets.toString());
-
         if (pack.add(subset) && mainSet.equals(pack.getSet())) {
-//            log.atInfo().log(pack.getList().toString());
             packSet.add(new HashSet<>(pack.getList()));
             return;
         }
+
         availableSubsets.remove(subset);
         if (availableSubsets.isEmpty()) {
-//            log.atInfo().log(pack.getList().toString());
             return;
         }
+
         for (var element : availableSubsets) {
-            process(element, new Pack(pack), new ArrayList<>(availableSubsets));
+            // Потокобезопасная копия списка подмножеств
+            process(element, new Pack(pack), new CopyOnWriteArrayList<>(availableSubsets));
         }
     }
 }
