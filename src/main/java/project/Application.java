@@ -49,8 +49,23 @@ public class Application {
       Set.of(3, 4)
   ));
 
+  static List<Set<Integer>> setList4 = new ArrayList<>(List.of(
+      Set.of(1),
+      Set.of(2),
+      Set.of(3),
+      Set.of(4),
+      Set.of(5),
+      Set.of(6),
+      Set.of(7),
+      Set.of(8),
+      Set.of(9),
+      Set.of(10),
+      Set.of(11)
+  ));
+
   static Set<Integer> set = new HashSet<>(Set.of(1, 2, 3, 4, 5, 6));
   static Set<Integer> set3 = new HashSet<>(Set.of(1, 2, 3, 4));
+  static Set<Integer> set4 = new HashSet<>(Set.of(1, 2, 3, 4,5,6,7,8,9,10,11));
 
   public static void main(String[] args) {
     //Настройка отображения всех найденных упаковок
@@ -63,13 +78,20 @@ public class Application {
     getMaxPack(6, set, setList, showAllPackagesInConsole);
 
     log.atInfo().log("Поиск максимальной упаковки\n");
-    //Этот код очень медленный 32 сек
+//    //Этот код очень медленный 32 сек
 //    getMaxPack(1, set, setList2, showAllPackagesInConsole);
     getMaxPack(6, set, setList2, showAllPackagesInConsole);
 
     log.atInfo().log("Поиск максимальной упаковки\n");
     getMaxPack(1, set3, setList, showAllPackagesInConsole);
     getMaxPack(6, set3, setList3, showAllPackagesInConsole);
+
+//    //Этот код медленный
+//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    //102 сек
+//    getMaxPack(1, set4, setList4, showAllPackagesInConsole);
+//    //26 сек
+//    getMaxPack(6, set4, setList4, showAllPackagesInConsole);
 
   }
 
