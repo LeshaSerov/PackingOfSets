@@ -1,14 +1,12 @@
-package alexey.serov;
+package project;
 
+import java.util.concurrent.locks.LockSupport;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.stream.Collectors;
+import java.util.concurrent.*;
 
 @Slf4j
 public class Packer {
@@ -19,7 +17,7 @@ public class Packer {
     public Packer(Set<Integer> mainSet, List<Set<Integer>> subsetList) {
         this.mainSet = Set.copyOf(mainSet);
         this.subsetList = List.copyOf(subsetList);
-        this.packSet = new CopyOnWriteArraySet<>();
+        this.packSet = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     @Getter
@@ -48,23 +46,30 @@ public class Packer {
         }
     }
 
-    public List<Set<Integer>> maxPack() {
-        Set<Set<Integer>> availableSubsets = Collections.newSetFromMap(new ConcurrentHashMap<>(subsetList.size()));
-        availableSubsets.addAll(subsetList);
-
-        for (var element : availableSubsets) {
-            process(element, new Pack(), new CopyOnWriteArrayList<>(availableSubsets));
+    //int nThreads = Runtime.getRuntime().availableProcessors()
+    public List<Set<Integer>> maxPack(int nThreads, boolean showAllPackagesInConsole) {
+        try {
+            ExecutorService executor = Executors.newFixedThreadPool(nThreads);
+            for (var element : subsetList) {
+                executor.execute(() -> process(element, new Pack(), new CopyOnWriteArrayList<>(subsetList)));
+            }
+            executor.shutdown();
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Error occurred while waiting for executor to terminate.", e);
         }
 
-        packSet.forEach(x -> log.info(x.toString()));
-
+        if (showAllPackagesInConsole) {
+            packSet.forEach(x -> log.info(x.toString()));
+        }
         return packSet.stream()
                 .max(Comparator.comparingInt(Set::size))
                 .map(ArrayList::new)
                 .orElseGet(ArrayList::new);
     }
 
-    private void process(Set<Integer> subset, Pack pack, List<Set<Integer>> availableSubsets) {
+    private void process(Set<Integer> subset, Pack pack, List<Set<Integer>> availableSubsets){
         if (pack.add(subset) && mainSet.equals(pack.getSet())) {
             packSet.add(new HashSet<>(pack.getList()));
             return;
