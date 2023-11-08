@@ -1,4 +1,4 @@
-package project;
+package alex;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -145,20 +145,20 @@ public class Application {
 //    getMaxPack(1, set3, setList3, showAllPackagesInConsole);
 //    getMaxPack(6, set3, setList3, showAllPackagesInConsole);
 
-    //Этот код медленный
-    log.atInfo().log("Поиск максимальной упаковки\n");
-    //102 сек
-    getMaxPack(1, set4, setList4, showAllPackagesInConsole);
-    //26 сек
-    getMaxPack(6, set4, setList4, showAllPackagesInConsole);
-
+//    //Этот код медленный
+//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    //102 сек
+//    getMaxPack(1, set4, setList4, showAllPackagesInConsole);
+//    //26 сек
+//    getMaxPack(6, set4, setList4, showAllPackagesInConsole);
+//
     log.atInfo().log("Поиск максимальной упаковки\n");
     getMaxPack(nThreads, set5, setList5, showAllPackagesInConsole);
     getMaxPack(6, set5, setList5, showAllPackagesInConsole);
 
-    log.atInfo().log("Поиск максимальной упаковки\n");
-    getMaxPack(nThreads, set6, setList6, showAllPackagesInConsole);
-    getMaxPack(6, set6, setList6, showAllPackagesInConsole);
+//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    getMaxPack(nThreads, set6, setList6, showAllPackagesInConsole);
+//    getMaxPack(6, set6, setList6, showAllPackagesInConsole);
 
   }
 

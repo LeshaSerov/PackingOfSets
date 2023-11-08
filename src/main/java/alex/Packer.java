@@ -1,4 +1,4 @@
-package project;
+package alex;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +46,8 @@ public class Packer {
     }
 
     public boolean add(Set<Integer> set) {
-      if (this.set.addAll(set)) {
+      if (Collections.disjoint(this.set, set)) {
+        this.set.addAll(set);
         this.list.add(set);
         return true;
       }

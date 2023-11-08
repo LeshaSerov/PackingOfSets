@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="384.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.FormController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+  <TabPane prefHeight="422.0" prefWidth="460.0" tabClosingPolicy="UNAVAILABLE">
+    <Tab text="Ручной ввод">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="335.0" prefWidth="460.0">
+        <Label alignment="TOP_CENTER" contentDisplay="RIGHT" layoutX="18.0" layoutY="24.0" prefHeight="19.0" prefWidth="425.0" text="Введите подмножества для поиска минимальной выпуклой оболочки:">
+          <font>
+            <Font name="System Bold Italic" size="12.0" />
+          </font>
+        </Label>
+        <Label fx:id="labelManual" alignment="TOP_CENTER" layoutX="18.0" layoutY="243.0" prefHeight="65.0" prefWidth="430.0" text="Результат" textAlignment="CENTER" wrapText="true">
+          <font>
+            <Font name="System Italic" size="12.0" />
+          </font>
+        </Label>
+        <TextArea fx:id="areaManual" layoutX="14.0" layoutY="50.0" prefHeight="155.0" prefWidth="414.0" promptText="Введите сюда подмножества в виде x1 x2 x3" text="1 2&#10;2 3&#10;3 4&#10;1 2 3&#10;4" />
+        <Button fx:id="buttonManual" graphicTextGap="0.0" layoutX="14.0" layoutY="213.0" mnemonicParsing="false" onAction="#onClickButtonManual" prefHeight="25.0" prefWidth="259.0" text="Найти минимальную выпуклую оболочку">
+          <opaqueInsets>
+            <Insets />
+          </opaqueInsets>
+        </Button>
+      </AnchorPane>
+    </Tab>
+    <Tab text="Автоматический ввод">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <TextField fx:id="labelSetAuto" layoutX="25.0" layoutY="59.0" promptText="Ввод в виде x1 x2 x3" text="1 2 3" />
+        <TextField fx:id="labelCountAuto" layoutX="25.0" layoutY="143.0" promptText="5..." text="4" />
+        <TextArea fx:id="AreaAuto" editable="false" layoutX="246.0" layoutY="31.0" prefHeight="200.0" prefWidth="200.0" promptText="Автогенерация" />
+        <Label layoutX="22.0" layoutY="31.0" text="Введите все элементы множества" />
+        <Label layoutX="25.0" layoutY="84.0" prefHeight="59.0" prefWidth="198.0" text="Введите количество подмножеств на которое должно быть разбито множество" wrapText="true" />
+        <Label layoutX="246.0" layoutY="14.0" text="Сгенерированные подмножества" />
+        <Button fx:id="buttonAuto" layoutX="22.0" layoutY="189.0" mnemonicParsing="false" onAction="#onClickButtonAuto" prefHeight="42.0" prefWidth="204.0" text="Найти минимальную выпуклую оболочку" textAlignment="CENTER" wrapText="true" />
+        <Label fx:id="labelAuto" alignment="TOP_CENTER" layoutX="25.0" layoutY="238.0" prefHeight="61.0" prefWidth="421.0" text="Результат" textAlignment="CENTER" wrapText="true">
+          <font>
+            <Font name="System Italic" size="12.0" />
+          </font>
+        </Label>
+      </AnchorPane>
+    </Tab>
+  </TabPane>
+</VBox>
