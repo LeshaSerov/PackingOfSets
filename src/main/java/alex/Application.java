@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class Application {
 
   static List<Set<Integer>> setList = new ArrayList<>(List.of(
@@ -132,31 +130,31 @@ public class Application {
     //Количество потоков
     int nThreads = Runtime.getRuntime().availableProcessors();
 
-//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    System.out.println("Поиск максимальной упаковки\n");
 //    getMaxPack(nThreads, set, setList, showAllPackagesInConsole);
 //    getMaxPack(6, set, setList, showAllPackagesInConsole);
 //
-//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    System.out.println("Поиск максимальной упаковки\n");
 ////    //Этот код очень медленный 32 сек
 //    getMaxPack(1, set, setList2, showAllPackagesInConsole);
 //    getMaxPack(6, set, setList2, showAllPackagesInConsole);
 //
-//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    System.out.println("Поиск максимальной упаковки\n");
 //    getMaxPack(1, set3, setList3, showAllPackagesInConsole);
 //    getMaxPack(6, set3, setList3, showAllPackagesInConsole);
 
 //    //Этот код медленный
-//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    System.out.println("Поиск максимальной упаковки\n");
 //    //102 сек
 //    getMaxPack(1, set4, setList4, showAllPackagesInConsole);
 //    //26 сек
 //    getMaxPack(6, set4, setList4, showAllPackagesInConsole);
 //
-    log.atInfo().log("Поиск максимальной упаковки\n");
+    System.out.println("Поиск максимальной упаковки\n");
     getMaxPack(nThreads, set5, setList5, showAllPackagesInConsole);
     getMaxPack(6, set5, setList5, showAllPackagesInConsole);
 
-//    log.atInfo().log("Поиск максимальной упаковки\n");
+//    System.out.println("Поиск максимальной упаковки\n");
 //    getMaxPack(nThreads, set6, setList6, showAllPackagesInConsole);
 //    getMaxPack(6, set6, setList6, showAllPackagesInConsole);
 
@@ -164,7 +162,7 @@ public class Application {
 
   private static void getMaxPack(int nThreads, Set<Integer> set, List<Set<Integer>> setList,
       boolean showAllPackagesInConsole) {
-//    log.atInfo().log(setList.toString() + " : " + nThreads);
+//    System.out.println(setList.toString() + " : " + nThreads);
 
     long start = System.nanoTime();
     List<Set<Integer>> maxPack = new Packer(set, setList)
@@ -172,13 +170,13 @@ public class Application {
     long finish = System.nanoTime();
     long elapsed = finish - start;
     //Вывод времени в консоль
-    log.atInfo().log(String.valueOf((double) elapsed / 1000000 / 1000));
+    System.out.println((double) elapsed / 1000000 / 1000);
     //Вывод найденной упаковки в консоль
-    log.atInfo().log(maxPack.toString());
+    System.out.println(maxPack.toString());
     //Вывод размера максимальной упаковки
-    log.atInfo().log("MaxPack: " + maxPack.size());
+    System.out.println("MaxPack: " + maxPack.size());
     //Дополнительный отступ после
-    log.atInfo().log("\n");
+    System.out.println("\n");
   }
 
 }

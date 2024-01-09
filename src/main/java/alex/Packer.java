@@ -13,9 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class Packer {
 
   private final Set<Integer> mainSet;
@@ -73,11 +71,11 @@ public class Packer {
 
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      log.error("Error occurred while waiting for executor to terminate.", e);
+      System.out.println("Error occurred while waiting for executor to terminate." + e);
     }
 
     if (showAllPackagesInConsole) {
-      packSet.forEach(x -> log.info(x.toString()));
+      packSet.forEach(x -> System.out.println(x.toString()));
     }
     return packSet.stream()
         .max(Comparator.comparingInt(Set::size))

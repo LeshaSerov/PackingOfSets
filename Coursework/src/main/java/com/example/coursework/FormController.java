@@ -10,21 +10,29 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class FormController {
 
-  public Button buttonManual;
-  public Label labelManual;
-  public TextArea areaManual;
-  public TextField labelSetAuto;
-  public TextField labelCountAuto;
-  public TextArea AreaAuto;
-  public Button buttonAuto;
-  public Label labelAuto;
+  @FXML public Button buttonManual;
+  @FXML public Label labelManual;
+  @FXML public TextArea areaManual;
+  @FXML public TextField labelSetAuto;
+  @FXML public TextField labelCountAuto;
+  @FXML public TextArea AreaAuto;
+  @FXML public Button buttonAuto;
+  @FXML public Label labelAuto;
+
+  @FXML public void initialize() {
+    controller = this;
+  }
+
+  public static FormController controller;
 
   public void onClickButtonManual(ActionEvent actionEvent) {
     try {
@@ -130,4 +138,7 @@ public class FormController {
     return false; // Не удалось собрать упаковку из подмножеств
   }
 
+  public TextArea getAreaManual() {
+    return areaManual;
+  }
 }
